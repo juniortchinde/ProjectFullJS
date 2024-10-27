@@ -25,8 +25,18 @@ const refreshTokenBodyValidation = (body) => {
     return schema.validate(body);
 };
 
+const addProductBodyValidation = (body) =>{
+    const schema = Joi.object({
+        title: Joi.string().min(3).max(30).required().label('title'),
+        description: Joi.string().min(3).max(30).required().label('description'),
+        price: Joi.number().label('price')
+
+    });
+    return schema.validate(body);
+};
 module.exports =  {
     signUpBodyValidation,
     logInBodyValidation,
     refreshTokenBodyValidation,
+    addProductBodyValidation
 };

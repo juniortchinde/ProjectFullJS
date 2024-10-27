@@ -28,6 +28,10 @@ const userSchema = mongoose.Schema({
     profil: {
         type: String,
         default: "default"
+    },
+    money:{
+        type:Number,
+        default: 0
     }
 })
 
