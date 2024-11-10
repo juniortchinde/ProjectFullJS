@@ -29,16 +29,18 @@ module.exports.addProduct = async (req, res) => {
 
 module.exports.updateProduct = async (req, res) => {
     try{
-        const productObject = req.files[0] ?{
-            ...JSON.parse(req.body.product),
-            images: req.files.map(file => `${req.protocol}://${req.get('host')}/public/images/${file.filename}`)
-        }: {...req.body};
 
         const product = await Product.findOne({ _id: req.params.productId });
         if(product.userId !== req.auth.userId){
             return res.status(401).json({message: "non autorisé"})
         }
-        await Product.updateOne({_id: req.params.productId}, {...productObject})
+        const images = [];
+        for (const imageUrl of req.imageUrls) {
+            if(!product.images.includes(imageUrl.hash)){
+                images.push(imageUrl);
+            }
+        }
+        await Product.updateOne({_id: req.params.productId}, {...req.body, images: images});
         res.status(200).json({error: false, message: "Product updated successfully." });
     }
     catch (error) {

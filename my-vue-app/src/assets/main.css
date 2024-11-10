@@ -1,0 +1,21 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    --blue: #5179FF;
+    --white:#FFFFFF;
+    --red: #FF0000;
+    --border: #CCC;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: "Roboto Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
