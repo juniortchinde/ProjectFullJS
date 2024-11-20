@@ -10,7 +10,7 @@ import Home from "@/pages/Home.vue";
 import Product from "@/pages/Product.vue";
 import Login from "@/pages/Login.vue";
 import Register from "@/pages/Register.vue";
-import Basket from "@/pages/Basket.vue";
+import Basket from "@/pages/ShoppingCart.vue";
 
 const router = createRouter({
     history: createWebHistory(),

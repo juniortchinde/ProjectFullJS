@@ -1,10 +1,10 @@
 <script setup lang="ts">
 
-import NavBar from "@/components/navBar.vue";
+import Header from "@/components/Header.vue";
 </script>
 
 <template>
-   <navBar></navBar>
+   <Header></Header>
 </template>
 
 <style scoped>

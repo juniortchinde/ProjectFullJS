@@ -10,6 +10,7 @@
     --white:#FFFFFF;
     --red: #FF0000;
     --border: #CCC;
+    --icons:#949292;
 }
 
 html, body {
@@ -18,4 +19,15 @@ html, body {
 
 body {
     font-family: "Roboto Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+a {
+    text-decoration: none; /* Supprime le soulignement */
+    color: inherit;        /* Utilise la couleur de texte héritée du parent */
+    font-weight: normal;   /* Réinitialise le style de la police */
+}
+
+a:visited, a:hover, a:focus, a:active {
+    text-decoration: none; /* Supprime le soulignement dans tous les états */
+    color: inherit;        /* Conserve la couleur héritée dans tous les états */
 }

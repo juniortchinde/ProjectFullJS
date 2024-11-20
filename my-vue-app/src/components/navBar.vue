@@ -18,7 +18,7 @@ import Search from "@/components/Search.vue";
 <style scoped>
 .navbar {
     display: flex;
-    padding: 1rem;
+    padding: .8rem;
     gap: 2rem;
 }
 .navbar .logo img {
