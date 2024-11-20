@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const productSchema = mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'users'
     },
     images : {
         type: Array
@@ -20,9 +20,18 @@ const productSchema = mongoose.Schema({
         type: Number,
         required: true 
     },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'categories'
+    },
     description:{
         type: String
     }
-});
+},
+    {
+        timestamps: true
+    }
 
-module.exports = mongoose.model('product', productSchema);
+);
+
+module.exports = mongoose.model('products', productSchema);

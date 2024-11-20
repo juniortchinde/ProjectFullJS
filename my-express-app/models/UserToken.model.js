@@ -15,6 +15,10 @@ const UserTokenSchema = mongoose.Schema({
         default: Date.now(),
         expires: 10 * 86400
     }
-})
+},
+    {
+        timestamps: true
+    }
+)
 
-module.exports = mongoose.model('UserToken', UserTokenSchema);
+module.exports = mongoose.model('userTokens', UserTokenSchema);

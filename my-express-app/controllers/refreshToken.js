@@ -16,7 +16,7 @@ module.exports.refreshToken = async (req, res) =>{
         const payload = {_id : tokenDetails._id}
         const accessToken = jwt.sign(
             payload, process.env.ACCESS_TOKEN,
-            { expiresIn: '15m'}
+            { expiresIn: '1d'}
         )
         res.status(200).json({
             error: false,

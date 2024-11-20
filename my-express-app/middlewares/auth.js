@@ -9,20 +9,25 @@ module.exports.loginLimiter = rateLimit({
 
 module.exports.protect = (req, res, next) =>{
     try{
+        // on vérifie que le token reçu est bien un Bearer token sinon on renvoie un message d'erreur
         if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
             return res.status(401).json({
                 error: true,
                 message: "Authorization header missing or malformed",
             });
         }
+        // puis on splip autour de l'espace et on recupère la partie correspondante au jwt token
         const token = req.headers.authorization.split(' ')[1];
-        console.log(token);
+        //on decode le token
         const decodedToken =  jwt.verify(token, process.env.ACCESS_TOKEN);
-        console.log(decodedToken);
+
         const userId = decodedToken._id;
+
+        // Et on ajoute le userId decodé aux champs de la requête
         req.auth = {
             userId : userId
         };
+        // on passe à la suite
         next()
     }
     catch(err){
