@@ -20,10 +20,10 @@ const productSchema = mongoose.Schema({
         type: Number,
         required: true 
     },
-    category: {
+    /*category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'categories'
-    },
+    },*/
     description:{
         type: String
     }
@@ -31,7 +31,6 @@ const productSchema = mongoose.Schema({
     {
         timestamps: true
     }
-
 );
 
 module.exports = mongoose.model('products', productSchema);

@@ -67,9 +67,10 @@ module.exports.login = async(req, res, next) => {
         const {accessToken, refreshToken} = await generateTokens(user)
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,      // Non accessible via JavaScript
-            secure: true,        // Seulement envoyé via HTTPS
-            sameSite: 'Strict',  // Empêche les envois cross-origin
-            maxAge: 30 * 24 * 60 * 60 * 1000, // Expire après 7 jours
+            secure: false,        // Seulement envoyé via HTTPS
+            sameSite : "Lax",
+            maxAge: 30 * 24 * 60 * 60 * 1000, // Expire après  jours
+
         });
 
         res.status(200).json({
@@ -83,3 +84,51 @@ module.exports.login = async(req, res, next) => {
         res.status(500).json({ error: true, message: "Internal Server Error" });
     }
 };
+
+module.exports.getUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.auth.userId).select("-password");
+        if (!user){
+            return res.status(401).json({error: true, message: "not authenticated" });
+        }
+
+        return res.json({error: false, user});
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ error: true, message: "Internal Server Error" });
+    }
+}
+
+const addMoney = async (req, res) => {
+    try {
+        await User.updateOne(
+            { _id: req.auth.userId },
+            {money: req.body.money},
+        )
+        return res.status(200).json({error: false, message: "Successfully added money" });
+    }
+
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ error: true, message: "Internal Server Error" });
+    }
+}
+
+module.exports.updateUser = async (req, res) => {
+    try {
+        await User.updateOne(
+            {_id: req.auth.userId},
+            {
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                phone: req.body.phone,
+                address: req.body.address
+            }
+        )
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ error: true, message: "Internal Server Error" });
+    }
+}

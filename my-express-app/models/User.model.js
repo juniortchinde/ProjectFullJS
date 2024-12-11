@@ -22,10 +22,10 @@ const userSchema = mongoose.Schema({
     phone: {
         type: String
     },
-    adress: {
+    address: {
         type: String
     },
-    profil: {
+    picture: {
         type: String,
         default: "default"
     },

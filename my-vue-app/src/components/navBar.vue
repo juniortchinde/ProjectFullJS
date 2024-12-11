@@ -6,7 +6,10 @@ import Search from "@/components/Search.vue";
 <template>
     <nav class="navbar">
         <div class="logo">
+          <router-link to="/">
             <img :src=logo>
+          </router-link>
+
         </div>
         <Search></Search>
         <div>

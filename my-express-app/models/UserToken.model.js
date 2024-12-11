@@ -13,7 +13,7 @@ const UserTokenSchema = mongoose.Schema({
     createAt: {
         type: Date,
         default: Date.now(),
-        expires: 10 * 86400
+        expires: 30 * 86400
     }
 },
     {

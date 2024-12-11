@@ -1,5 +1,7 @@
 import {defineStore} from 'pinia';
 import {ref} from "vue";
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
 export const useAuthStore = defineStore('auth', ()=>{
 
     // stockage du token
@@ -11,7 +13,8 @@ export const useAuthStore = defineStore('auth', ()=>{
 
     const refreshToken = async () => {
         try{
-            const response = await fetch(`http://localhost:4000/`, {
+
+            const response = await fetch(`${baseUrl}/refreshToken`, {
                 method: 'GET',
                 credentials: 'include',
             });

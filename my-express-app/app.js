@@ -24,11 +24,12 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 //refresh token
-app.get('/', require('./controllers/refreshToken').refreshToken);
+app.get('/api/refreshToken', require('./controllers/refreshToken').refreshToken);
 app.delete('/logout', require('./controllers/refreshToken').logout)
 
 app.use('/api/user', require('./routes/User.routes'))
 app.use('/api/product', require('./routes/Product.routes'))
+app.use('/api/category', require('./routes/Category.routes'))
 
 
 module.exports = app;

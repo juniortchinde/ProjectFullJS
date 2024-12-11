@@ -2,10 +2,11 @@
 
 import NavBar from "@/components/navBar.vue";
 import Categories from "@/components/Categories.vue";
-import { ReMoneyEuroCircleLine } from '@kalimahapps/vue-icons';
+import {AnOutlinedMenu, ReMoneyEuroCircleLine} from '@kalimahapps/vue-icons';
 import { MdRoundHelpOutline } from '@kalimahapps/vue-icons';
 import { BxUser } from '@kalimahapps/vue-icons';
 import { FeShoppingCart } from '@kalimahapps/vue-icons';
+import Logged from "@/components/Logged.vue";
 
 </script>
 
@@ -13,33 +14,26 @@ import { FeShoppingCart } from '@kalimahapps/vue-icons';
     <header class="header">
         <navBar></navBar>
         <div class="option-container">
+            <categories></categories>
             <div class="option-item">
-                <Categories></Categories>
-            </div>
-            <div class="option-item">
-                <router-link to="sell">
+                <router-link to="/sell">
                     <ReMoneyEuroCircleLine></ReMoneyEuroCircleLine>
                     <span>Mettre en vente</span>
                 </router-link>
             </div>
             <div class="option-item">
-                <router-link to="help">
+                <router-link to="/help">
                     <MdRoundHelpOutline></MdRoundHelpOutline>
                     <span>Aide</span>
                 </router-link>
             </div>
 
             <div class="option-item">
-                <router-link to="login">
-                    <BxUser></BxUser>
-                    <span> Se connecter</span>
-                </router-link>
-
-
+                <Logged></Logged>
             </div>
 
             <div class="option-item">
-                <router-link to="shopping-cart">
+                <router-link to="/shopping-cart">
                     <FeShoppingCart></FeShoppingCart>
                     <span>Panier</span>
 
@@ -70,14 +64,21 @@ import { FeShoppingCart } from '@kalimahapps/vue-icons';
     font-size: 1rem;
     font-weight: 400;
 }
+
+.option-container .option-item:hover{
+  color: var(--blue);
+}
+
 .option-container .option-item  a{
     display: flex;
+    align-items: end;
     gap: .5rem;
 }
 
 .option-container .option-item svg {
+    gap: .5rem;
     color: var(--icons);
-    font-size: 1.2rem;
+    font-size: 1.5rem;
 }
 
 </style>

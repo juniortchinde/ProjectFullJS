@@ -4,7 +4,7 @@ import {ref} from "vue";
 import {useAuthStore} from "@/stores/authStore";
 import {useRouter} from "vue-router";
 
-
+const baseUrl = import.meta.env.VITE_BASE_URL
 const email = ref('')
 const password = ref('')
 
@@ -42,10 +42,11 @@ const handleLogin = async () => {
         return
     }
     try {
-        const response = await fetch('http://localhost:4000/api/user/login', {
+        const response = await fetch(`${baseUrl}/user/login`,{
             method: 'POST',
+            credentials: 'include',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 email: email.value,
@@ -58,8 +59,8 @@ const handleLogin = async () => {
         if (!data.error){
             authStore.setToken(data.accessToken);
             router.push({name: 'home'})
-
         }
+
         else {
             loginError.value = 'Email ou mot de passe incorrect.';
         }
@@ -74,10 +75,7 @@ const handleLogin = async () => {
 <template>
     <div class="login-container">
 
-        <div class="logo">
-            <img :src=logo>
-        </div>
-        <div class="form-container">
+        <div class="form-container" >
             <h1> Se connecter</h1>
             <form @submit.prevent="handleLogin">
                 <div class="form-group">
@@ -115,16 +113,6 @@ const handleLogin = async () => {
 </template>
 
 <style scoped>
-
-.logo{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.logo img{
-    width: 26rem;
-}
 
 .form-container{
     display: flex;
@@ -183,4 +171,8 @@ const handleLogin = async () => {
     font-size: 1rem;
     font-weight: 400;
 }
+.login-container p span {
+  color: var(--blue);
+}
+
 </style>

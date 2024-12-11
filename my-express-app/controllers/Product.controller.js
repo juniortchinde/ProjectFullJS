@@ -49,6 +49,7 @@ module.exports.updateProduct = async (req, res) => {
         res.status(500).json({ error: true, message: "Internal Server Error" });
     }
 }
+
 module.exports.deleteProduct =  (req, res) => {
     Product.findOne({_id: req.params.productId})
         .then(product => {
@@ -81,7 +82,7 @@ module.exports.getAllProducts = async (req, res) => {
         const products = await Product.aggregate([
             {$sample: { size: 10}}
         ])
-        return res.status(200).json({error:false, data: products})
+        return res.status(200).json({error:false, products})
     }
     catch (error) {
         console.log(error);
@@ -92,10 +93,28 @@ module.exports.getAllProducts = async (req, res) => {
 module.exports.getProduct =  (req, res) => {
     Product.findById(req.params.productId)
         .then(product => {
-            res.status(200).json(product)
+            const images = product.images.map((image) => image.imageUrl);
+            const result = {
+                title: product.title,
+                description: product.description,
+                price: product.price,
+                images: images,
+            }
+            res.status(200).json({error: false, product: result})
         })
         .catch(err => {
             console.log(err);
             res.status(500).json({ error: true, message: "Internal Server Error" });
         })
+}
+
+module.exports.getProductsForUser = async (req, res) => {
+    try {
+        const products = await Product.find({userId: req.auth.userId})
+        return res.status(200).json({error:false, products})
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ error: true, message: "Internal Server Error" });
+    }
 }

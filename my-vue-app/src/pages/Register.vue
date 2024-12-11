@@ -4,6 +4,8 @@ import {ref} from "vue";
 import {useAuthStore} from "@/stores/authStore";
 import {useRouter} from "vue-router";
 
+const baseUrl = import.meta.env.VITE_BASE_URL
+
 const firstname = ref("");
 const lastname = ref("");
 const email = ref('')
@@ -62,7 +64,7 @@ const handleRegister = async () => {
         return
     }
     try {
-        const response = await fetch('http://localhost:4000/api/user/signup', {
+        const response = await fetch(`${baseUrl}/user/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -95,10 +97,6 @@ const handleRegister = async () => {
 
 <template>
     <div class="login-container">
-
-        <div class="logo">
-            <img :src=logo>
-        </div>
         <div class="form-container">
             <h1> S'inscrire</h1>
             <form @submit.prevent="handleRegister">
@@ -154,23 +152,13 @@ const handleRegister = async () => {
                 <button type="submit">Connexion </button>
                 <p v-if="registerError" class="error-message">{{ registerError }}</p>
             </form>
-            <p>Vous n’avez pas encore de compte? <span><router-link to="/"> Se connecter </router-link></span></p>
+            <p>Vous n’avez pas encore de compte? <span><router-link to="/login"> Se connecter </router-link></span></p>
         </div>
     </div>
 
 </template>
 
 <style scoped>
-
-.logo{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.logo img{
-    width: 25rem;
-}
 
 .form-container{
     display: flex;
@@ -228,5 +216,8 @@ const handleRegister = async () => {
     color:var(--red);
     font-size: 1rem;
     font-weight: 400;
+}
+.login-container p span {
+  color: var(--blue);
 }
 </style>
