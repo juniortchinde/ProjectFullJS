@@ -25,7 +25,7 @@ effectuer un git clone sur le lien du projet
 - créer un fichier .env à la racine
 
 - remplir les variables d'environnement
- VITE_BASE_URL= http://localhost:<PORT>/api (PORT: le de l'api configuré en backend)
+ VITE_BASE_URL= http://localhost:PORT/api (PORT: le de l'api configuré en backend)
 
 - faire un npm install pour installer les packages decris dans le package.json obligatoire pour faire fonctionner l'application frontend
 
