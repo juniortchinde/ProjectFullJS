@@ -66,6 +66,8 @@ onMounted(() =>{
 <style scoped>
 .product-container {
     display: flex;
+    margin: auto;
+    max-width: 1000px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
