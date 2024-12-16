@@ -6,7 +6,7 @@ const baseUrl = import.meta.env.VITE_BASE_URL
 
 
 // Déclare les variables réactives
-const categories = ref([]);
+const categories = ref<Array<{_id: string, catName: string}>>([]);
 const title = ref<string>('');  // Nom
 const price = ref<number>(0);  // Email
 const description = ref<string>('');
@@ -103,7 +103,7 @@ const submitForm = async () => {
     else {
         successMessage.value = "Produit ajouté avec succès";
     }
-    console.log('Réponse du serveur :',data.data);
+
   } catch (error) {
     // Si une erreur se produit, on affiche un message d'erreur
     errorMessage.value = 'Erreur lors de l\'envoi du formulaire.';

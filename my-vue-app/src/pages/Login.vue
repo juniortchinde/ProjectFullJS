@@ -57,8 +57,10 @@ const handleLogin = async () => {
         const data = await response.json();
 
         if (!data.error){
-            authStore.setToken(data.accessToken);
-            router.push({name: 'home'})
+            authStore.setToken(data.accessToken, data.lastname);
+            console.log(data)
+            console.log(authStore.token, authStore.lastname);
+            await router.push({name: 'home'})
         }
 
         else {

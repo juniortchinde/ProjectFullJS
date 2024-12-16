@@ -41,7 +41,7 @@ defineProps({
     display: flex;
     flex-direction: column;
     max-width: 240px;
-    background: #FAFAFB;
+    background: var(--background);
     max-height: 350px;
     border-radius: 7px;
     overflow: hidden;

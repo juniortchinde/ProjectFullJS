@@ -1,34 +1,37 @@
 <script setup lang="ts">
 import {useCatStore} from '@/stores/orderStore'
-import {loadConfigFromFile} from "vite";
-import image from '@/assets/mini-frigo-domo-do906k03.jpg'
 
+import {toRaw} from "vue"
+import Cart from "@/components/Cart.vue";
 
 const catStore = useCatStore();
-const items = catStore.items;
+const items = toRaw(catStore.$state.items);
 const total = catStore.totalPrice;
+
 
 </script>
 
 <template>
   <h1> Mon panier de Commande </h1>
-    <div class="cart-container">
-      <div class="product">
-        <div class="product-image">
-          <img :src="image" alt=""/>
-        </div>
-        <div class="product-info">
-          <h3> Title </h3>
-          <p> price</p>
-          <button> quantité</button>
-          <button> Suprimer</button>
-        </div>
-      </div>
+    <div class="cart-container"  v-if="items.length && items.length > 0">
+        <Cart
+            v-for="item in items"
+            :title="item.title"
+            :description="item.description"
+            :price="item.price"
+            :image="item.image"
+            :quantity="item.quantity"
+        >
+        </Cart>
         <div class="total-order">
-          <h3> Prix total </h3>
+          <h3> Prix total :</h3>
+          <p> {{total}}</p>
           <button> Passer la Commande </button>
         </div>
     </div>
+    <div class="no-products" v-else>
+    <p> Pas encore de produit dans votre panier </p>
+  </div>
 </template>
 
 <style scoped>
@@ -39,51 +42,16 @@ h1 {
   font-weight: bold;
 }
 .cart-container {
-  display: flex;
   max-width: 1200px;
-  margin: auto;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-}
-
-.cart-container .product-image {
-  width: 30%;
-}
-
-.product-info {
   display: flex;
-  width: 50%;
-  gap: 2rem;
-  margin: auto;
   flex-direction: column;
+  justify-content: space-between;
+  justify-items: center;
+  align-items: center;
+  margin: auto;
+  gap: 2rem;
 }
 
-.product-image img{
-  width: auto;
-  height: 15rem;
-  object-fit: contain;
-
-}
-
-.product-info button{
-  width: 50%;
-  padding: 7px;
-  font-size: 1rem;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-}
-
-
-.product {
-  display: flex;
-  flex-direction: row;
-  width: 80%;
-  background: #FAFAFB;
-
-}
 
 .total-order {
   display: flex;
@@ -98,6 +66,11 @@ h1 {
   font-size: 2rem;
   font-weight: bold;
 }
+
+.total-order p {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
 .total-order button {
   border: none;
   padding: 0.7rem;
@@ -108,6 +81,15 @@ h1 {
   cursor: pointer;
   font-size: 1rem;
 
+}
+
+.no-products {
+  display: flex;
+  height: 50vh;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem ;
+  color: var(--icons);
 }
 
 

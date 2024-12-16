@@ -8,18 +8,20 @@ import {useCatStore} from '@/stores/orderStore'
 const baseUrl = import.meta.env.VITE_BASE_URL
 const catStore = useCatStore()
 
-const product = ref({})
+const product = ref<{_id: string, title: string, price: number, description: string, images : Array<string>}>({_id: '', title: '', price: 0, description: '', images: []})
 const route = useRoute()
 const productId = route.params.productId
 
 const addOnCart = async () => {
     catStore.addToCart({
-        id: productId,
-        title: product.title,
-        price: product.price,
+        id: product.value._id,
+        description: product.value.description,
+        quantity: 1,
+        title: product.value.title,
+        price: product.value.price,
+        image: product.value.images[0],
     })
-
-  console.log(catStore.$state)
+  console.log(catStore.$state.items)
 
 }
 

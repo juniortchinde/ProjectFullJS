@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const UserToken = require('../models/UserToken.model');
+const User = require('../models/User.model');
 const verifyRefreshToken = require('../utils/verifyRefreshToken')
 
 
@@ -14,12 +14,14 @@ module.exports.refreshToken = async (req, res) =>{
         }
         const { tokenDetails } = await verifyRefreshToken(refreshToken)
         const payload = {_id : tokenDetails._id}
+        const user = await User.findOne({_id:payload._id})
         const accessToken = jwt.sign(
             payload, process.env.ACCESS_TOKEN,
             { expiresIn: '1d'}
         )
         res.status(200).json({
             error: false,
+            lastname: user.lastname,
             accessToken,
             message: "Access token created successfully",
         });

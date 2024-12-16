@@ -10,7 +10,8 @@ const productSchema = mongoose.Schema({
     },
     title:{
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     price:{
         type : Number,
@@ -20,10 +21,10 @@ const productSchema = mongoose.Schema({
         type: Number,
         required: true 
     },
-    /*category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'categories'
-    },*/
+
+    category: {
+        type: String,
+    },
     description:{
         type: String
     }

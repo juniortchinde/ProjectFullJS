@@ -75,6 +75,7 @@ module.exports.login = async(req, res, next) => {
 
         res.status(200).json({
             error: false,
+            lastname: user.lastname,
             accessToken,
             message: "Logged in successfully",
         });

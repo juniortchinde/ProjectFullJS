@@ -3,19 +3,22 @@ const fs = require("node:fs");
 
 module.exports.addProduct = async (req, res) => {
     try{
+        console.log(req.body);
         if(!req.auth.userId){
             return res.status(401).json({message: "non autorisé"})
         }
+
         if(!req.imageUrls[0]){
             return res.status(400).json({message : "images not found "})
         }
-        const { title, description, price,  quantity} = req.body;
+        const { title, description, price,  quantity, category} = req.body;
         const product = new Product({
             userId: req.auth.userId,
             title,
             description,
             price,
             quantity,
+            category,
             images : req.imageUrls
         });
         await  product.save();
@@ -95,6 +98,7 @@ module.exports.getProduct =  (req, res) => {
         .then(product => {
             const images = product.images.map((image) => image.imageUrl);
             const result = {
+                _id: product._id,
                 title: product.title,
                 description: product.description,
                 price: product.price,
@@ -113,6 +117,57 @@ module.exports.getProductsForUser = async (req, res) => {
         const products = await Product.find({userId: req.auth.userId})
         return res.status(200).json({error:false, products})
     }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ error: true, message: "Internal Server Error" });
+    }
+}
+
+module.exports.searchProducts = async (req, res) => {
+    try {
+        const { category, minPrice, maxPrice, search } = req.query;
+        const filter = {};
+        console.log(req.query.search);
+        if (category) {
+            filter.category = category;
+        }
+
+        if (minPrice) {
+            filter.price = {...filter.price, $gte: Number(minPrice)};
+        }
+
+        if (maxPrice) {
+            filter.price = {...filter.price, $lte: Number(maxPrice)};
+        }
+
+        if (search) {
+            filter.$or = [
+                {title: {$regex: search, $options: "i"},},
+                {description: {$regex: search, $options: "i"}}
+            ]
+            console.log(search);
+        }
+
+        const products = await Product.find(filter).select("_id title price description images")
+
+        return res.status(200).json({error: false, products})
+
+
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ error: true, message: "Internal Server Error" });
+    }
+}
+
+module.exports.productsForCategory = async (req, res) => {
+
+    try {
+
+        const products = await Product.find({category: req.params.category});
+        return res.status(200).json({error: false, products})
+    }
+
     catch (error) {
         console.log(error);
         res.status(500).json({ error: true, message: "Internal Server Error" });

@@ -1,20 +1,53 @@
 <script setup lang="ts">
     import {ref} from "vue";
+    import {useRouter} from "vue-router"
     import { ChSearch } from '@kalimahapps/vue-icons';
+    const baseUrl = import.meta.env.VITE_BASE_URL;
+    import {useSearchStore} from "@/stores/searchStore"
 
-    const search = ref('')
-    const handleSearch = () => {
+    const router = useRouter()
+    const searchStore = useSearchStore()
 
+    const search =  ref<string>('');
+
+    const openSearchPage =async () => {
+        await router.push('/search');
     }
+
+    const handleSearch = async () => {
+      try {
+        localStorage.setItem('search', search.value);
+
+        const response = await fetch(`${baseUrl}/product/searchProducts?search=${encodeURIComponent(search.value)}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+
+        const data = await response.json();
+
+          if (!data.error) {
+              searchStore.setSearchResult(data.products);
+              console.log(searchStore.$state.searchResult)
+          }
+      }
+      catch (error) {
+        console.log(error)
+      }
+    }
+
 </script>
 
 <template>
-    <form class="search-form" @submit="handleSearch">
+    <form class="search-form" @submit.prevent="handleSearch">
         <input
+            @click="openSearchPage"
             type="search"
             v-model="search"
             placeholder="Rechercher sur GoodLife"
             id="search"
+            required
         >
         <button type="submit"><ChSearch></ChSearch></button>
     </form>

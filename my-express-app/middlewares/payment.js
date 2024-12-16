@@ -14,7 +14,7 @@ module.exports.payOrder =  async (req,res,next)=>{
         // on récupere le montant de la commande et on vérifie si l'utilisateur à assez d'argent sur son compte pour passer la commande
         const amount = req.body.amount;
         if ( req.body.amount > user.money ) {
-            return res.status(401).send({error: true, message : "not enough money in your account"});
+            return res.status(400).send({error: true, message : "not enough money in your account"});
         }
 
         // on soustrait le montant de la commande de son compte 

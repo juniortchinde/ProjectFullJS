@@ -5,7 +5,7 @@ import { AkCross } from '@kalimahapps/vue-icons';
 import { BxCategory } from '@kalimahapps/vue-icons';
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
-const categories = ref([]);
+const categories = ref<Array<{_id: string, catName: string}>>([]);
 const errorMsg = ref("");
 
 async function getCategories() {
@@ -48,7 +48,7 @@ onMounted (()=> {
             <span> Parcourir les catégories</span>
         </button>
         <ul v-if="isMenuOpen" class="categories-menu">
-            <li v-for="(category, index) in categories" :key="index">
+            <li v-for="(category, index) in categories" :key="category.catName">
                 <BxCategory/>
                 <span v-if="errorMsg">{{errorMsg}}</span>
                 <span v-else>{{ category.catName }}</span>
@@ -79,11 +79,13 @@ onMounted (()=> {
 }
 .categories-menu{
     width: 17%;
-    height: 106vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     gap: 1rem;
     border: solid 1px var(--border);
+    border-bottom: none;
+    border-right: none;
     margin: 1.5rem 0;
     position: absolute;
     left: 0;
